@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+form action="user">
+<input type="hidden" name="op" value="login">
+<p>
+    <label for="n1">姓名:</label>
+    <input type="text" name="name" id="n1">
+</p>
+<p>
+    <label>Pass:</label>
+    <input type="password" name="pass">
+</p>
+<p>
+    <label>Code:</label><img src="code.jpg" id="imgCode" title="看不清楚，点击换一张">
+    <input type="text" name="code">
+</p>
+<p>
+    <label>Save:</label>
+    <select name="savetime">
+        <option value="0">不保存</option>
+        <option value="1">保存1天</option>
+        <option value="7">保存1周</option>
+        <option value="31">保存1月</option>
+        <option value="-1">永久保存</option>
+    </select>
+</p>
+<p>
+    <button>登录</button>
+    <button type="reset">清空</button>
+</p>
+</form>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>结算</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="jquery/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            let sum = 0;
+            function carts() {
+                $.getJSON("order.do", "op=doGetCasts", function (ret) {
+                    console.log(ret);
+                });
+            }
+            carts();
+            let td = $("#td1");
+            td.text(sum);
+
+            function fillData(up, sel) {
+                $.getJSON("city.do", "op=cas&up=" + up, function (ret) {
+                    if (ret.errorCode) {
+                        alert(ret.message);
+                        return;
+                    }
+                    for (let i = 0; i < ret.data.length; i++) {
+                        let opt = new Option(ret.data[i].name,
+                            ret.data[i].id);
+                        $(sel).append(opt);
+                    }
+                });
+            }
+
+            fillData(0, '#selP');
+            $('#selP').on("change", function () {
+                $('#selC')[0].length = 1;
+                $('#selD')[0].length = 1;
+                let up = this.value;
+                if (up == -1) {
+                    return;
+                }
+                fillData(up, '#selC');
+            });
+            $('#selC').on("change", function () {
+                $('#selD')[0].length = 1;
+                let up = this.value;
+                if (up == -1) {
+                    return;
+                }
+                fillData(up, '#selD');
+            });
+            $.post("order.do", $('form').serialize(),
+                function (ret) {
+                    console.log(ret);
+                });
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <table align="center" class="table col-xs-12 table-striped">
+            <thead>
+            <tr>
+                <th>图书名称</th>
+                <th>购买数量</th>
+                <th>单价</th>
+                <th>小计</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="tr1">
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="2">合计：</td>
+                <td id="td1" colspan="2"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <form>
+        <input type="hidden" name="op" value="confirm">
+        <label>地址:</label>
+        <select id="selP">
+            <option value="-1">==请选择==</option>
+        </select>
+        <select id="selC">
+            <option value="-1">==请选择==</option>
+        </select>
+        <select id="selD">
+            <option value="-1">==请选择==</option>
+        </select>
+        <br>
+        <label>详细地址:</label>
+        <input type="text" name="detail" id="d1" required>
+        <button type="button">确认购买</button>
+    </form>
+
+</div>
+</body>
+</html>

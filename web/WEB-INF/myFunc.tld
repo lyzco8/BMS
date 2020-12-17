@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <description>lsf functions library</description>
+    <display-name>lsf functions</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>bf</short-name>
+    <uri>http://www.lsf.com/functions</uri>
+    <function>
+        <name>getBook</name>
+        <function-class>com.lsf.func.BookFunction</function-class>
+        <function-signature>
+            com.lsf.entity.Book getBook(java.lang.Integer)
+        </function-signature>
+    </function>
+</taglib>

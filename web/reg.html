@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <script>
+        let isValid = false;
+        let isValid2 = false;
+        let isValid3 = false;
+        onload = function () {
+            n1.onblur = function () {
+                let name = n1.value;
+                if (name.trim() == "") {
+                    spMsg.innerHTML = "用户名不能为空";
+                    return;
+                }
+                let xhr = new XMLHttpRequest();
+                xhr.open("post", "user");
+                xhr.setRequestHeader("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        let ret = xhr.responseText;
+                        if (ret == "用户名可以使用") {
+                            isValid = true;
+                        } else {
+                            isValid = false;
+                        }
+                        spMsg.innerHTML = ret;
+                    }
+                };
+                xhr.send("op=checkname&name=" + name);
+            };
+            e1.onblur = function () {
+                let email = e1.value;
+                if (email.trim() == "") {
+                    spMsg2.innerHTML = "Email不能为空";
+                    return;
+                }
+                let xhr = new XMLHttpRequest();
+                xhr.open("post", "user");
+                xhr.setRequestHeader("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        let ret = xhr.responseText;
+                        if (ret == "Email可以使用") {
+                            isValid2 = true;
+                        } else {
+                            isValid2 = false;
+                        }
+                        spMsg2.innerHTML = ret;
+                    }
+                };
+                xhr.send("op=checkemail&email=" + email);
+            };
+
+            p2.onblur = function () {
+                let phone = p2.value;
+                if (phone.trim() == "") {
+                    spMsg3.innerHTML = "手机号不能为空";
+                    return;
+                }
+                let xhr = new XMLHttpRequest();
+                xhr.open("post", "user");
+                xhr.setRequestHeader("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        let ret = xhr.responseText;
+                        if (ret == "手机号可以使用") {
+                            isValid3 = true;
+                        } else {
+                            isValid3 = false;
+                        }
+                        spMsg3.innerHTML = ret;
+                    }
+                };
+                xhr.send("op=checkphone&phone=" + phone);
+            };
+        };
+
+        function doSubmit() {
+            if (isValid && isValid2 && isValid3) {
+                let name = n1.value;
+                let pass = p1.value;
+                let repass = rp1.value;
+                let email = e1.value;
+                let rdos = document.getElementsByName("gender");
+                let age = a1.value;
+                let phone = p2.value;
+                let xhr = new XMLHttpRequest();
+                xhr.open("post", "user");
+                xhr.setRequestHeader("Content-Type",
+                    "application/x-www-form-urlencoded;charset=UTF-8");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        let ret = xhr.responseText;
+                        spMsg.innerHTML = ret;
+                    }
+                };
+                xhr.send("op=reg&name=" + name + "&pass=" +
+                    pass + "&repass=" + repass + "&email=" + email + "&gender=" +
+                    (rdos[0].checked ? "M" : "F") + "&age=" + age + "&phone=" + phone
+                );
+            }
+        }
+    </script>
+</head>
+<body>
+<form action="user">
+    <input type="hidden" name="op" value="reg">
+    <p>
+        <label for="n1">姓名</label>
+        <input type="text" name="name" id="n1">
+        <span id="spMsg"></span>
+    </p>
+    <p>
+        <label for="p1">密码</label>
+        <input type="password" name="pass" id="p1">
+    </p>
+    <p>
+        <label for="rp1">再次输入密码</label>
+        <input type="password" name="repass" id="rp1">
+    </p>
+    <p>
+        <label for="e1">邮箱</label>
+        <input type="email" name="email" id="e1">
+        <span id="spMsg2"></span>
+    </p>
+    <p>
+        <label>性别</label>
+        <input type="radio" name="gender" id="m1" value="M" checked>
+        <label for="m1">男</label>
+        <input type="radio" name="gender" id="f1" value="F">
+        <label for="f1">女</label>
+    </p>
+    <p>
+        <label for="a1">年龄</label>
+        <input type="number" name="age" id="a1">
+    </p>
+    <p>
+        <label for="p2">电话</label>
+        <input type="tel" name="phone" id="p2">
+        <span id="spMsg3"></span>
+    </p>
+    <p>
+        <button onclick="doSubmit()">注册</button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <button type="reset">清空</button>
+    </p>
+</form>
+</body>
+</html>
